@@ -14,7 +14,7 @@ public class StompController {
     private List<Player> playerList = new ArrayList<>();
     
     @MessageMapping("/new-player")
-    @SendTo("/players")
+    @SendTo("/destroy/players")
     public List<Player> newPlayer(String username) {
 
         System.out.println(username + " received");
@@ -33,7 +33,7 @@ public class StompController {
                 return playerList;
             }
             case 2: {
-                Player player = new Player(username, 2, false, "red", 19, 6, true, 0);
+                Player player = new Player(username, 2, false, "red", 19, 5, true, 0);
                 playerList.add(player);
                 System.out.println(playerList.size());
                 return playerList;
@@ -45,7 +45,7 @@ public class StompController {
                 return playerList;
             }
             case 4: {
-                Player player = new Player(username, 4, false, "yellow", 19, 14, true, 0);
+                Player player = new Player(username, 4, false, "yellow", 19, 15, true, 0);
                 playerList.add(player);
                 return playerList;
             }
