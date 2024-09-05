@@ -55,4 +55,10 @@ public class StompController {
 
     }
     
+    @MessageMapping("/update-player-movement")
+    @SendTo("/destroy/players")
+    public List<Player> updatePlayerMovement(List<Player> updatedPlayerList) {
+        playerList = updatedPlayerList;
+        return playerList;
+    }
 }
