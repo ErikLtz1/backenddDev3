@@ -55,6 +55,62 @@ public class StompController {
         }
 
     }
+
+    @MessageMapping("/new-round")
+    @SendTo("/destroy/players")
+    public List<Player> updatePlayersForNewRound(Player oldPlayer) {
+        switch(oldPlayer.getPlayerNumber()) {
+            case 1: {
+                for(int i = 0; i < playerList.size(); i++) {
+                    if (playerList.get(i).getUsername().equals(oldPlayer.getUsername())) {
+                        playerList.remove(i);
+                    }
+                }
+               
+                Player player = new Player(oldPlayer.getUsername(), 2, false, oldPlayer.getColour(), 19, 5, true, oldPlayer.getScore());
+                playerList.add(player);
+                System.out.println(playerList.size());
+                return playerList;
+            }
+            case 2: {
+                for(int i = 0; i < playerList.size(); i++) {
+                    if (playerList.get(i).getUsername().equals(oldPlayer.getUsername())) {
+                        playerList.remove(i);
+                    }
+                }
+                
+                Player player = new Player(oldPlayer.getUsername(), 3, false,  oldPlayer.getColour(), 19, 10, true, oldPlayer.getScore());
+                playerList.add(player);
+                System.out.println(playerList.size());
+                return playerList;
+            }
+            case 3: {
+                for(int i = 0; i < playerList.size(); i++) {
+                    if (playerList.get(i).getUsername().equals(oldPlayer.getUsername())) {
+                        playerList.remove(i);
+                    }
+                }
+                
+                Player player = new Player(oldPlayer.getUsername(), 4, false,  oldPlayer.getColour(), 19, 15, true, oldPlayer.getScore());
+                playerList.add(player);
+                System.out.println(playerList.size());
+                return playerList;
+            }
+            case 4: {
+                for(int i = 0; i < playerList.size(); i++) {
+                    if (playerList.get(i).getUsername().equals(oldPlayer.getUsername())) {
+                        playerList.remove(i);
+                    }
+                }
+                
+                Player player = new Player(oldPlayer.getUsername(), 1, true,  oldPlayer.getColour(), 0, 10, true, oldPlayer.getScore());
+                playerList.add(player);
+                return playerList;
+            }
+            default:
+                return playerList;
+        }
+    }
     
     @MessageMapping("/update-player-movement")
     @SendTo("/destroy/players")
@@ -79,4 +135,13 @@ public class StompController {
         System.out.println("fire!");
         return bullet;
     }
+
+    @MessageMapping("/game-end")
+    @SendTo("/destroy/players")
+    public List<Player> emptyPlayerList() {
+        playerList.clear();
+        return playerList;
+        
+    }
+
 }
