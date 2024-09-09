@@ -1,6 +1,5 @@
 package com.backenddev3.backenddev3.controllers;
 
-
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -59,9 +58,19 @@ public class StompController {
     
     @MessageMapping("/update-player-movement")
     @SendTo("/destroy/players")
-    public List<Player> updatePlayerMovement(List<Player> updatedPlayerList) {
-        playerList = updatedPlayerList;
+    public List<Player> updatePlayerMovement(Player updatedPlayer) {
+        
+        System.out.println(updatedPlayer.getY() + ", " + updatedPlayer.getUsername());
+        for(Player player : playerList) {
+            if (player.getUsername().equals(updatedPlayer.getUsername().toString())) {
+                player.setY(updatedPlayer.getY());
+                player.setActive(updatedPlayer.isActive());
+                System.out.println("we got here! " + player.getUsername());
+                return playerList;
+            }
+        }
         return playerList;
+        
     }
 
     @MessageMapping("/new-bullet")
