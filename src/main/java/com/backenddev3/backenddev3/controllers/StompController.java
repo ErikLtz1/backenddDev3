@@ -6,6 +6,8 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
 import java.util.*;
+
+import com.backenddev3.backenddev3.models.Bullet;
 import com.backenddev3.backenddev3.models.Player;
 
 @Controller
@@ -60,5 +62,12 @@ public class StompController {
     public List<Player> updatePlayerMovement(List<Player> updatedPlayerList) {
         playerList = updatedPlayerList;
         return playerList;
+    }
+
+    @MessageMapping("/new-bullet")
+    @SendTo("/destroy/bullets") 
+    public Bullet newBullet(Bullet bullet) {
+        System.out.println("fire!");
+        return bullet;
     }
 }
