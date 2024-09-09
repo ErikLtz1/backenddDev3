@@ -69,7 +69,6 @@ public class StompController {
                
                 Player player = new Player(oldPlayer.getUsername(), 2, false, oldPlayer.getColour(), 19, 5, true, oldPlayer.getScore());
                 playerList.add(player);
-                System.out.println(playerList.size());
                 return playerList;
             }
             case 2: {
@@ -81,7 +80,6 @@ public class StompController {
                 
                 Player player = new Player(oldPlayer.getUsername(), 3, false,  oldPlayer.getColour(), 19, 10, true, oldPlayer.getScore());
                 playerList.add(player);
-                System.out.println(playerList.size());
                 return playerList;
             }
             case 3: {
@@ -93,7 +91,6 @@ public class StompController {
                 
                 Player player = new Player(oldPlayer.getUsername(), 4, false,  oldPlayer.getColour(), 19, 15, true, oldPlayer.getScore());
                 playerList.add(player);
-                System.out.println(playerList.size());
                 return playerList;
             }
             case 4: {
@@ -116,11 +113,15 @@ public class StompController {
     @SendTo("/destroy/players")
     public List<Player> updatePlayerMovement(Player updatedPlayer) {
         
-        System.out.println(updatedPlayer.getY() + ", " + updatedPlayer.getUsername());
+        System.out.println("Received update for: " + updatedPlayer.getUsername());
+        System.out.println("Updated Player Y: " + updatedPlayer.getY());
+        System.out.println("Updated Player Active: " + updatedPlayer.isActive());
+        System.out.println("Updated Player Score: " + updatedPlayer.getScore());
         for(Player player : playerList) {
             if (player.getUsername().equals(updatedPlayer.getUsername().toString())) {
                 player.setY(updatedPlayer.getY());
                 player.setActive(updatedPlayer.isActive());
+                player.setScore(updatedPlayer.getScore());
                 System.out.println("we got here! " + player.getUsername());
                 return playerList;
             }
