@@ -29,7 +29,7 @@ public class StompControllerTest {
         assertEquals(1, playerResult.size());
         assertEquals("player1", playerResult.get(0).getUsername());
         assertEquals(1, playerResult.get(0).getPlayerNumber());
-        assertEquals("src/images/hunter.png", playerResult.get(0).getColour());
+        assertEquals("public/hunter.png", playerResult.get(0).getColour());
         assertEquals(0, playerResult.get(0).getX());
         assertEquals(10, playerResult.get(0).getY());
         assertEquals(true, playerResult.get(0).isShooter());
@@ -44,7 +44,7 @@ public class StompControllerTest {
         assertEquals(2, playerResult.size());
         assertEquals("player2", playerResult.get(1).getUsername());
         assertEquals(2, playerResult.get(1).getPlayerNumber());
-        assertEquals("src/images/witch.png", playerResult.get(1).getColour());
+        assertEquals("public/witch.png", playerResult.get(1).getColour());
         assertEquals(19, playerResult.get(1).getX());
         assertEquals(5, playerResult.get(1).getY());
         assertEquals(false, playerResult.get(1).isShooter());
@@ -60,7 +60,7 @@ public class StompControllerTest {
         assertEquals(3, playerResult.size());
         assertEquals("player3", playerResult.get(2).getUsername());
         assertEquals(3, playerResult.get(2).getPlayerNumber());
-        assertEquals("src/images/zombie.png", playerResult.get(2).getColour());
+        assertEquals("public/zombie.png", playerResult.get(2).getColour());
         assertEquals(19, playerResult.get(2).getX());
         assertEquals(10, playerResult.get(2).getY());
         assertEquals(false, playerResult.get(2).isShooter());
@@ -77,7 +77,7 @@ public class StompControllerTest {
         assertEquals(4, playerResult.size());
         assertEquals("player4", playerResult.get(3).getUsername());
         assertEquals(4, playerResult.get(3).getPlayerNumber());
-        assertEquals("src/images/viking.png", playerResult.get(3).getColour());
+        assertEquals("public/viking.png", playerResult.get(3).getColour());
         assertEquals(19, playerResult.get(3).getX());
         assertEquals(15, playerResult.get(3).getY());
         assertEquals(false, playerResult.get(3).isShooter());
