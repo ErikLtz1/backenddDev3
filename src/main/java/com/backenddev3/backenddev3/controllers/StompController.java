@@ -26,22 +26,22 @@ public class StompController {
 
         switch(playerNumber) {
             case 1: {
-                Player player = new Player(username, 1, true, "public/hunter.png", 0, 10, true, 0);
+                Player player = new Player(username, 1, true, "/hunter.png", 0, 10, true, 0);
                 playerList.add(player);
                 return playerList;
             }
             case 2: {
-                Player player = new Player(username, 2, false, "public/witch.png", 19, 5, true, 0);
+                Player player = new Player(username, 2, false, "/witch.png", 19, 5, true, 0);
                 playerList.add(player);
                 return playerList;
             }
             case 3: {
-                Player player = new Player(username, 3, false, "public/zombie.png", 19, 10, true, 0);
+                Player player = new Player(username, 3, false, "/zombie.png", 19, 10, true, 0);
                 playerList.add(player);
                 return playerList;
             }
             case 4: {
-                Player player = new Player(username, 4, false, "public/viking.png", 19, 15, true, 0);
+                Player player = new Player(username, 4, false, "/viking.png", 19, 15, true, 0);
                 playerList.add(player);
                 return playerList;
             }
