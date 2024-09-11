@@ -110,7 +110,31 @@ public class StompController {
         for(Player player : playerList) {
             if (player.getUsername().equals(updatedPlayer.getUsername().toString())) {
                 player.setY(updatedPlayer.getY());
+                return playerList;
+            }
+        }
+        return playerList;
+        
+    }
+
+    @MessageMapping("/update-player-active")
+    @SendTo("/destroy/players")
+    public List<Player> updatePlayerActive(Player updatedPlayer) {
+        for(Player player : playerList) {
+            if (player.getUsername().equals(updatedPlayer.getUsername().toString())) {
                 player.setActive(updatedPlayer.isActive());
+                return playerList;
+            }
+        }
+        return playerList;
+        
+    }
+
+    @MessageMapping("/update-player-score")
+    @SendTo("/destroy/players")
+    public List<Player> updatePlayerScore(Player updatedPlayer) {
+        for(Player player : playerList) {
+            if (player.getUsername().equals(updatedPlayer.getUsername().toString())) {
                 player.setScore(updatedPlayer.getScore());
                 return playerList;
             }
