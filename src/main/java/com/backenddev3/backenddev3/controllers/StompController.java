@@ -107,7 +107,6 @@ public class StompController {
     @MessageMapping("/update-player-movement")
     @SendTo("/destroy/players")
     public List<Player> updatePlayerMovement(Player updatedPlayer) {
-    
         for(Player player : playerList) {
             if (player.getUsername().equals(updatedPlayer.getUsername().toString())) {
                 player.setY(updatedPlayer.getY());
