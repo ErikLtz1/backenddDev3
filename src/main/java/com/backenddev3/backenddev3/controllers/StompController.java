@@ -18,8 +18,6 @@ public class StompController {
     @SendTo("/destroy/players")
     public List<Player> newPlayer(String username) {
 
-        System.out.println(username + " received");
-        System.out.println(playerList.size());
         if (playerList.size() == 4) {
             return playerList;
         }
@@ -109,13 +107,11 @@ public class StompController {
     @MessageMapping("/update-player-movement")
     @SendTo("/destroy/players")
     public List<Player> updatePlayerMovement(Player updatedPlayer) {
-
         for(Player player : playerList) {
             if (player.getUsername().equals(updatedPlayer.getUsername().toString())) {
                 player.setY(updatedPlayer.getY());
                 player.setActive(updatedPlayer.isActive());
                 player.setScore(updatedPlayer.getScore());
-                System.out.println("we got here! " + player.getUsername());
                 return playerList;
             }
         }
@@ -126,7 +122,6 @@ public class StompController {
     @MessageMapping("/new-bullet")
     @SendTo("/destroy/bullets") 
     public Bullet newBullet(Bullet bullet) {
-        System.out.println("fire!");
         return bullet;
     }
 
