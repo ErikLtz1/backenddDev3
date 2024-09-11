@@ -18,8 +18,6 @@ public class StompController {
     @SendTo("/destroy/players")
     public List<Player> newPlayer(String username) {
 
-        System.out.println(username + " received");
-        System.out.println(playerList.size());
         if (playerList.size() == 4) {
             return playerList;
         }
@@ -28,25 +26,22 @@ public class StompController {
 
         switch(playerNumber) {
             case 1: {
-                Player player = new Player(username, 1, true, "blue", 0, 10, true, 0);
+                Player player = new Player(username, 1, true, "src/images/hunter.png", 0, 10, true, 0);
                 playerList.add(player);
-                System.out.println(playerList.size());
                 return playerList;
             }
             case 2: {
-                Player player = new Player(username, 2, false, "red", 19, 5, true, 0);
+                Player player = new Player(username, 2, false, "src/images/witch.png", 19, 5, true, 0);
                 playerList.add(player);
-                System.out.println(playerList.size());
                 return playerList;
             }
             case 3: {
-                Player player = new Player(username, 3, false, "green", 19, 10, true, 0);
+                Player player = new Player(username, 3, false, "src/images/zombie.png", 19, 10, true, 0);
                 playerList.add(player);
-                System.out.println(playerList.size());
                 return playerList;
             }
             case 4: {
-                Player player = new Player(username, 4, false, "yellow", 19, 15, true, 0);
+                Player player = new Player(username, 4, false, "src/images/viking.png", 19, 15, true, 0);
                 playerList.add(player);
                 return playerList;
             }
@@ -112,17 +107,12 @@ public class StompController {
     @MessageMapping("/update-player-movement")
     @SendTo("/destroy/players")
     public List<Player> updatePlayerMovement(Player updatedPlayer) {
-        
-        System.out.println("Received update for: " + updatedPlayer.getUsername());
-        System.out.println("Updated Player Y: " + updatedPlayer.getY());
-        System.out.println("Updated Player Active: " + updatedPlayer.isActive());
-        System.out.println("Updated Player Score: " + updatedPlayer.getScore());
+    
         for(Player player : playerList) {
             if (player.getUsername().equals(updatedPlayer.getUsername().toString())) {
                 player.setY(updatedPlayer.getY());
                 player.setActive(updatedPlayer.isActive());
                 player.setScore(updatedPlayer.getScore());
-                System.out.println("we got here! " + player.getUsername());
                 return playerList;
             }
         }
@@ -133,7 +123,6 @@ public class StompController {
     @MessageMapping("/new-bullet")
     @SendTo("/destroy/bullets") 
     public Bullet newBullet(Bullet bullet) {
-        System.out.println("fire!");
         return bullet;
     }
 
