@@ -15,7 +15,7 @@ public class StompController {
     private List<Player> playerList = new ArrayList<>();
     
     @MessageMapping("/new-player")
-    @SendTo("/destroy/players")
+    @SendTo("/destroy/player-registration")
     public List<Player> newPlayer(String username) {
 
         if (playerList.size() == 4) {
@@ -131,7 +131,7 @@ public class StompController {
     }
 
     @MessageMapping("/update-player-score")
-    @SendTo("/destroy/players")
+    @SendTo("/destroy/player-scores")
     public List<Player> updatePlayerScore(Player updatedPlayer) {
         for(Player player : playerList) {
             if (player.getUsername().equals(updatedPlayer.getUsername().toString())) {
