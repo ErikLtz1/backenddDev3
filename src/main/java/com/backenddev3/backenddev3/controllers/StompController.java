@@ -161,4 +161,14 @@ public class StompController {
         
     }
 
+    @MessageMapping("/new-game")
+    @SendTo("/destroy/new-game")
+    public List<Player> newGame() {
+        for(Player player: playerList) {
+            player.setScore(0);
+            player.setActive(true);
+        }
+        return playerList;
+    }
+
 }
