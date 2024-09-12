@@ -14,6 +14,10 @@ public class StompController {
 
     private List<Player> playerList = new ArrayList<>();
     
+    public void setPlayerList(List<Player> playerList) {
+        this.playerList = playerList;
+    }
+    
     @MessageMapping("/new-player")
     @SendTo("/destroy/players")
     public List<Player> newPlayer(String username) {
@@ -26,22 +30,22 @@ public class StompController {
 
         switch(playerNumber) {
             case 1: {
-                Player player = new Player(username, 1, true, "src/images/hunter.png", 0, 10, true, 0);
+                Player player = new Player(username, 1, true, "/hunter.png", 0, 10, true, 0);
                 playerList.add(player);
                 return playerList;
             }
             case 2: {
-                Player player = new Player(username, 2, false, "src/images/witch.png", 19, 5, true, 0);
+                Player player = new Player(username, 2, false, "/witch.png", 19, 5, true, 0);
                 playerList.add(player);
                 return playerList;
             }
             case 3: {
-                Player player = new Player(username, 3, false, "src/images/zombie.png", 19, 10, true, 0);
+                Player player = new Player(username, 3, false, "/zombie.png", 19, 10, true, 0);
                 playerList.add(player);
                 return playerList;
             }
             case 4: {
-                Player player = new Player(username, 4, false, "src/images/viking.png", 19, 15, true, 0);
+                Player player = new Player(username, 4, false, "/viking.png", 19, 15, true, 0);
                 playerList.add(player);
                 return playerList;
             }
@@ -110,7 +114,31 @@ public class StompController {
         for(Player player : playerList) {
             if (player.getUsername().equals(updatedPlayer.getUsername().toString())) {
                 player.setY(updatedPlayer.getY());
+                return playerList;
+            }
+        }
+        return playerList;
+        
+    }
+
+    @MessageMapping("/update-player-active")
+    @SendTo("/destroy/players")
+    public List<Player> updatePlayerActive(Player updatedPlayer) {
+        for(Player player : playerList) {
+            if (player.getUsername().equals(updatedPlayer.getUsername().toString())) {
                 player.setActive(updatedPlayer.isActive());
+                return playerList;
+            }
+        }
+        return playerList;
+        
+    }
+
+    @MessageMapping("/update-player-score")
+    @SendTo("/destroy/players")
+    public List<Player> updatePlayerScore(Player updatedPlayer) {
+        for(Player player : playerList) {
+            if (player.getUsername().equals(updatedPlayer.getUsername().toString())) {
                 player.setScore(updatedPlayer.getScore());
                 return playerList;
             }
