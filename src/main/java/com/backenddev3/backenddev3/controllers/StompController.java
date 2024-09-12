@@ -14,6 +14,10 @@ public class StompController {
 
     private List<Player> playerList = new ArrayList<>();
     
+    public void setPlayerList(List<Player> playerList) {
+        this.playerList = playerList;
+    }
+    
     @MessageMapping("/new-player")
     @SendTo("/destroy/player-registration")
     public List<Player> newPlayer(String username) {
