@@ -14,6 +14,10 @@ public class StompController {
 
     private List<Player> playerList = new ArrayList<>();
     
+    public void setPlayerList(List<Player> playerList) {
+        this.playerList = playerList;
+    }
+    
     @MessageMapping("/new-player")
     @SendTo("/destroy/player-registration")
     public List<Player> newPlayer(String username) {
@@ -155,6 +159,16 @@ public class StompController {
         playerList.clear();
         return playerList;
         
+    }
+
+    @MessageMapping("/new-game")
+    @SendTo("/destroy/new-game")
+    public List<Player> newGame() {
+        for(Player player: playerList) {
+            player.setScore(0);
+            player.setActive(true);
+        }
+        return playerList;
     }
 
 }
