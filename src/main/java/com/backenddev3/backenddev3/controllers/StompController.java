@@ -1,10 +1,16 @@
 package com.backenddev3.backenddev3.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.backenddev3.backenddev3.models.Bullet;
 import com.backenddev3.backenddev3.models.Player;
@@ -13,6 +19,11 @@ import com.backenddev3.backenddev3.models.Player;
 public class StompController {
 
     private List<Player> playerList = new ArrayList<>();
+    private Map<String, Boolean> playersReadyMap = new HashMap<>();
+    private List<String> playerFinalScores = new ArrayList<>();
+    
+    @Autowired
+    SimpMessagingTemplate messagingTemplate;
     
     @MessageMapping("/new-player")
     @SendTo("/destroy/player-registration")
@@ -54,54 +65,47 @@ public class StompController {
     @MessageMapping("/new-round")
     @SendTo("/destroy/players")
     public List<Player> updatePlayersForNewRound(Player oldPlayer) {
+
+        for(int i = 0; i < playerList.size(); i++) {
+            if (playerList.get(i).getUsername().equals(oldPlayer.getUsername())) {
+                playerList.remove(i);
+                break;
+            }
+        }
+
+        Player player = null;
         switch(oldPlayer.getPlayerNumber()) {
             case 1: {
-                for(int i = 0; i < playerList.size(); i++) {
-                    if (playerList.get(i).getUsername().equals(oldPlayer.getUsername())) {
-                        playerList.remove(i);
-                    }
-                }
-               
-                Player player = new Player(oldPlayer.getUsername(), 2, false, oldPlayer.getColour(), 19, 5, true, oldPlayer.getScore());
-                playerList.add(player);
-                return playerList;
+                player = new Player(oldPlayer.getUsername(), 2, false, oldPlayer.getColour(), 19, 5, true, oldPlayer.getScore());
+                break;
             }
             case 2: {
-                for(int i = 0; i < playerList.size(); i++) {
-                    if (playerList.get(i).getUsername().equals(oldPlayer.getUsername())) {
-                        playerList.remove(i);
-                    }
-                }
-                
-                Player player = new Player(oldPlayer.getUsername(), 3, false,  oldPlayer.getColour(), 19, 10, true, oldPlayer.getScore());
-                playerList.add(player);
-                return playerList;
+                player = new Player(oldPlayer.getUsername(), 3, false,  oldPlayer.getColour(), 19, 10, true, oldPlayer.getScore());
+                break;
             }
             case 3: {
-                for(int i = 0; i < playerList.size(); i++) {
-                    if (playerList.get(i).getUsername().equals(oldPlayer.getUsername())) {
-                        playerList.remove(i);
-                    }
-                }
-                
-                Player player = new Player(oldPlayer.getUsername(), 4, false,  oldPlayer.getColour(), 19, 15, true, oldPlayer.getScore());
-                playerList.add(player);
-                return playerList;
+                player = new Player(oldPlayer.getUsername(), 4, false,  oldPlayer.getColour(), 19, 15, true, oldPlayer.getScore());
+                break;
             }
-            case 4: {
-                for(int i = 0; i < playerList.size(); i++) {
-                    if (playerList.get(i).getUsername().equals(oldPlayer.getUsername())) {
-                        playerList.remove(i);
-                    }
-                }
-                
-                Player player = new Player(oldPlayer.getUsername(), 1, true,  oldPlayer.getColour(), 0, 10, true, oldPlayer.getScore());
-                playerList.add(player);
-                return playerList;
+            case 4: {               
+                player = new Player(oldPlayer.getUsername(), 1, true,  oldPlayer.getColour(), 0, 10, true, oldPlayer.getScore());
+                break;
             }
             default:
-                return playerList;
+                break;
         }
+
+        playerList.add(player);
+
+        /****** ROUND START NOW WAITS FOR ALL PLAYERS TO BE PROCESSED BY SERVER ******/
+        playersReadyMap.put(oldPlayer.getUsername(), true);
+        System.out.println(playersReadyMap);
+        if (playersReadyMap.size() == playerList.size()) {
+            messagingTemplate.convertAndSend("/destroy/round-start-confirmation", "Round start");
+            playersReadyMap.clear();
+        }
+
+        return playerList;
     }
     
     @MessageMapping("/update-player-movement")
@@ -136,7 +140,6 @@ public class StompController {
         for(Player player : playerList) {
             if (player.getUsername().equals(updatedPlayer.getUsername().toString())) {
                 player.setScore(updatedPlayer.getScore());
-                return playerList;
             }
         }
         return playerList;
@@ -165,6 +168,18 @@ public class StompController {
             player.setActive(true);
         }
         return playerList;
+    }
+
+    @MessageMapping("/final-score")
+    @SendTo("/destroy/final-score-confirmation")
+    public List<Player> finalScores(String username) {
+        playerFinalScores.add(username);
+        if (playerFinalScores.size() == 3) {
+            playerFinalScores.clear();
+            return playerList;
+        } else {
+            return Collections.emptyList();
+        }        
     }
 
 }
